@@ -1,0 +1,324 @@
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EA2 – Regression mit FFNN</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="#r1">R1: Datensätze</a></li>
+            <li><a href="#r2">R2: Modell ohne Rauschen</a></li>
+            <li><a href="#r3">R3: Best-Fit</a></li>
+            <li><a href="#r4">R4: Overfitting</a></li>
+            <li><a href="#discussion">🧠 Diskussion</a></li>
+            <li><a href="#documentation">🛠️ Dokumentation</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1>EA2: Regression mit Feedforward Neural Network – TensorFlow.js</h1>
+    </header>
+
+    <main>
+        <div id="plots" class="section"></div>
+
+        <section id="discussion" class="section">
+            <h2>🧠 Diskussion</h2>
+            <p><strong>R1 – Datenbasis:</strong> Der Vergleich zwischen verrauschten und rauschfreien Daten offenbart
+                den praktischen Einfluss von Störfaktoren. Die glatte Funktion ohne Rauschen dient als Referenzmodell,
+                während der verrauschte Datensatz ein realistisches Szenario mit Messabweichungen nachbildet – ein
+                entscheidender Faktor in realweltlicher Regressionsanalyse.</p>
+            <p><strong>R2 – Modell ohne Rauschen:</strong> Das Feedforward Neural Network kann die zugrunde liegende
+                Funktion bei idealen, rauschfreien Daten nahezu perfekt approximieren. Die geringe Differenz zwischen
+                Trainings- und Test-Loss unterstreicht die starke Generalisierungsfähigkeit, da keine Störsignale im
+                Lernprozess vorhanden sind. Overfitting ist hier kaum möglich.</p>
+            <p><strong>R3 – Best-Fit mit Rauschen:</strong> Das Modell wurde mit verrauschten Daten trainiert, wobei
+                bewusst eine moderate Anzahl an Epochen gewählt wurde. Trotz der Störungen gelingt es dem Netzwerk, die
+                wesentlichen Zusammenhänge zu extrahieren. Der moderate Unterschied zwischen Training- und Testfehler
+                zeigt, dass das Modell nicht überangepasst ist und auf neuen Daten verlässlich agiert.</p>
+            <p><strong>R4 – Overfitting-Effekt:</strong> Wird das Modell zu lange auf verrauschte Daten trainiert,
+                beginnt es, das Rauschen zu "lernen". Dies führt zu einer Abnahme der Generalisierung: Der
+                Trainingsfehler sinkt, der Testfehler steigt deutlich. Dies demonstriert anschaulich das typische
+                Overfitting-Phänomen – ein zentrales Problem in maschinellem Lernen.</p>
+            <p><strong>Fazit:</strong> Die Studie unterstreicht, wie wichtig eine angemessene Datenqualität,
+                Modellarchitektur und Trainingsdauer sind. Rauschfreie Daten ermöglichen präzise Modellierung, während
+                verrauschte Daten besondere Sorgfalt beim Training verlangen. Der bewusste Verzicht auf ein
+                Validationset macht Overfitting sichtbar und lehrreich, betont jedoch die Relevanz von Validierung in
+                praktischen Anwendungen.</p>
+        </section>
+
+        <section id="documentation" class="section">
+            <h2>🛠️ Dokumentation</h2>
+        
+            <h3>1) Technische Umsetzung</h3>
+            <p>Die technische Realisierung der Anwendung erfolgt vollständig im Browser mittels moderner Webtechnologien und
+                leistungsfähiger JavaScript-Bibliotheken. Dabei wird auf eine einfache, nachvollziehbare und reproduzierbare
+                Umsetzung geachtet.</p>
+            
+            <ul>
+                <li><strong>Technologien:</strong> Die Webanwendung basiert auf HTML5, CSS3 und modernem JavaScript (ES6+). Es wird
+                    kein Backend benötigt – sämtliche Prozesse laufen vollständig clientseitig im Browser ab.</li>
+            
+                <li><strong>Frameworks & Libraries:</strong>
+                    <ul>
+                        <li><strong>TensorFlow.js:</strong> Dient zur Definition, Initialisierung, dem Training und der Anwendung
+                            des neuronalen Netzwerks.</li>
+                        <li><strong>Plotly.js:</strong> Wird verwendet für die Erstellung dynamischer, interaktiver Diagramme zur
+                            Visualisierung der Datensätze und Modellvorhersagen.</li>
+                        <li><strong>seedrandom.js:</strong> Ermöglicht die deterministische Initialisierung des Zufallsgenerators
+                            zur Reproduzierbarkeit der Ergebnisse bei Daten- und Noise-Generierung.</li>
+                    </ul>
+                </li>
+            
+                <li><strong>Modellstruktur:</strong> Das eingesetzte Feedforward Neural Network besteht aus:
+                    <ul>
+                        <li>2 versteckten Schichten mit je 100 Neuronen</li>
+                        <li>Aktivierungsfunktion: ReLU (Rectified Linear Unit)</li>
+                        <li>1 Output-Neuron mit linearer Aktivierung zur Regression</li>
+                    </ul>
+                </li>
+            
+                <li><strong>Hyperparameter:</strong>
+                    <ul>
+                        <li><strong>Optimizer:</strong> Adam – ein adaptiver Optimierungsalgorithmus mit stabiler Lernkurvenführung
+                        </li>
+                        <li><strong>Lernrate:</strong> 0.01 – typischer Anfangswert für MSE-basiertes Training</li>
+                        <li><strong>Loss-Funktion:</strong> Mean Squared Error (MSE) – geeignet für Regressionsaufgaben</li>
+                        <li><strong>Batch-Größe:</strong> 32 – Ausgewogenheit zwischen Trainingseffizienz und Generalisierung</li>
+                    </ul>
+                </li>
+            
+                <li><strong>Daten:</strong> Zur Modellierung wird ein künstlich generierter Datensatz verwendet:
+                    <ul>
+                        <li>100 Datenpunkte im Bereich [-2, +2], gleichmäßig verteilt</li>
+                        <li>Berechnung der Zielwerte durch eine definierte mathematische Funktion (Fünfpunktpolynom)</li>
+                        <li>Zusätzliche Variante mit Rauscheinfluss: Additives Gaußsches Rauschen (Normalverteilung) mit einer
+                            Varianz von 0.05</li>
+                    </ul>
+                </li>
+            </ul>
+        
+            <h3>2) Aufbau der Webanwendung</h3>
+            <p>Die Webanwendung ist modular und übersichtlich konzipiert und folgt einer klaren didaktischen Struktur. Der
+                Aufbau orientiert sich an vier thematisch abgegrenzten Abschnitten (R1 bis R4), die jeweils unterschiedliche
+                Aspekte der Regressionsanalyse mit einem Feedforward Neural Network (FFNN) beleuchten:</p>
+        
+            <ul>
+                <li><strong>Strukturierung und Gliederung:</strong>
+                    <ul>
+                        <li><strong>R1 – Datensätze:</strong> Visualisierung von Trainings- und Testdaten – sowohl ohne als auch
+                            mit Rauschen – zur Verdeutlichung der Auswirkungen von Störfaktoren.</li>
+                        <li><strong>R2 – Modell ohne Rauschen:</strong> Training auf idealisierten, rauschfreien Daten zur
+                            Demonstration der maximal erreichbaren Modellqualität.</li>
+                        <li><strong>R3 – Best-Fit mit Rauschen:</strong> Realitätsnahes Szenario mit verrauschten Daten und
+                            stabiler Generalisierung.</li>
+                        <li><strong>R4 – Overfitting:</strong> Verdeutlichung typischer Überanpassung durch zu lange
+                            Trainingsphasen.</li>
+                    </ul>
+                </li>
+        
+                <li><strong>Visualisierung mit Plotly:</strong>
+                    <ul>
+                        <li>Interaktive Diagramme (Zoom, Hover, Legenden) für eine explorative Analyse direkt im Browser.</li>
+                        <li>Achsentitel, Beschriftungen und Farbkodierung für intuitive Interpretation.</li>
+                        <li>Punktwolken zur Darstellung der Rohdaten, Linienplots für Modellvorhersagen.</li>
+                    </ul>
+                </li>
+        
+                <li><strong>Automatisiertes Training im Frontend:</strong>
+                    <ul>
+                        <li>Training, Vorhersage und Loss-Berechnung erfolgen vollständig im Browser via TensorFlow.js.</li>
+                        <li>Kein Server oder Backend erforderlich – komplett clientseitige Anwendung.</li>
+                        <li>Deterministische Zufallszahlen (Seed-Steuerung) für reproduzierbare Ergebnisse.</li>
+                    </ul>
+                </li>
+        
+                <li><strong>Responsives und barrierearmes Design:</strong>
+                    <ul>
+                        <li>Skalierbar für Desktop, Tablet und Smartphone – durch flexibles Layout mit `flex-wrap`.</li>
+                        <li>Kontrastreiche Farben, ausreichende Schriftgrößen und klare Trennungen für Lesbarkeit.</li>
+                        <li>Sticky-Menü ermöglicht jederzeit den direkten Sprung zu jedem Abschnitt.</li>
+                    </ul>
+                </li>
+        
+                <li><strong>Benutzerführung und Interaktion:</strong>
+                    <ul>
+                        <li>Automatischer Start: Alle Modelle werden bei Seitenaufruf geladen und angezeigt – keine
+                            Benutzereingabe nötig.</li>
+                        <li>Loss-Werte werden unterhalb der Diagramme dargestellt, um Training und Generalisierung direkt zu
+                            bewerten.</li>
+                        <li>Einheitliche visuelle Darstellung der vier Hauptszenarien ermöglicht den direkten Vergleich der
+                            Ergebnisse.</li>
+                    </ul>
+                </li>
+            </ul>
+            </section>
+    </main>
+
+    <script>
+        Math.seedrandom("vfh-ea2");
+
+        const N = 100;
+        const NOISE_STDDEV = Math.sqrt(0.05);
+        const EPOCHS_BEST = 100;
+        const EPOCHS_OVER = 600;
+        const BATCH_SIZE = 32;
+        const LEARNING_RATE = 0.01;
+
+        function func(x) {
+            return 0.5 * (x + 0.8) * (x + 1.8) * (x - 0.2) * (x - 0.3) * (x - 1.9) + 1;
+        }
+
+        function generateData(withNoise = false) {
+            const xVals = Array.from({ length: N }, () => Math.random() * 4 - 2);
+            const yVals = xVals.map(func);
+            const noise = withNoise ? tf.randomNormal([N], 0, NOISE_STDDEV).arraySync() : Array(N).fill(0);
+            const yNoisy = yVals.map((y, i) => y + noise[i]);
+
+            const zipped = xVals.map((x, i) => ({ x, y: yNoisy[i] }));
+            tf.util.shuffle(zipped);
+
+            const train = zipped.slice(0, N / 2);
+            const test = zipped.slice(N / 2);
+            return { train, test };
+        }
+
+        function createModel() {
+            const model = tf.sequential();
+            model.add(tf.layers.dense({ inputShape: [1], units: 100, activation: 'relu' }));
+            model.add(tf.layers.dense({ units: 100, activation: 'relu' }));
+            model.add(tf.layers.dense({ units: 1 })); // linear output
+            model.compile({ optimizer: tf.train.adam(LEARNING_RATE), loss: 'meanSquaredError' });
+            return model;
+        }
+
+        async function trainModel(model, data, epochs) {
+            const xTrain = tf.tensor2d(data.train.map(d => [d.x]));
+            const yTrain = tf.tensor2d(data.train.map(d => [d.y]));
+            await model.fit(xTrain, yTrain, { epochs, batchSize: BATCH_SIZE, shuffle: true });
+            xTrain.dispose();
+            yTrain.dispose();
+        }
+
+        async function evaluateModel(model, data) {
+            const x = tf.tensor2d(data.map(d => [d.x]));
+            const yTrue = tf.tensor2d(data.map(d => [d.y]));
+            const yPred = model.predict(x);
+            const lossTensor = tf.losses.meanSquaredError(yTrue, yPred);
+            const loss = (await lossTensor.data())[0];
+            tf.dispose([x, yTrue, yPred, lossTensor]);
+            return loss;
+        }
+
+        async function predictY(model, data) {
+            return tf.tidy(() => {
+                const x = tf.tensor2d(data.map(d => [d.x]));
+                const preds = model.predict(x);
+                return preds.array();
+            });
+        }
+
+        function plotData(divId, title, points1, points2, label1, label2) {
+            Plotly.newPlot(divId, [
+                {
+                    x: points1.map(p => p.x),
+                    y: points1.map(p => p.y),
+                    mode: 'markers',
+                    name: label1
+                },
+                {
+                    x: points2.map(p => p.x),
+                    y: points2.map(p => p.y),
+                    mode: 'markers',
+                    name: label2
+                }
+            ], {
+                title,
+                xaxis: { title: 'x' },
+                yaxis: { title: 'y' }
+            });
+        }
+
+        function plotPrediction(divId, title, original, predY, label) {
+            Plotly.newPlot(divId, [
+                {
+                    x: original.map(p => p.x),
+                    y: original.map(p => p.y),
+                    mode: 'markers',
+                    name: 'Original'
+                },
+                {
+                    x: original.map(p => p.x),
+                    y: predY,
+                    mode: 'lines',
+                    name: label
+                }
+            ], {
+                title,
+                xaxis: { title: 'x' },
+                yaxis: { title: 'y & Prediction' }
+            });
+        }
+
+        async function main() {
+            const plotsDiv = document.getElementById("plots");
+            const dataClean = generateData(false);
+            const dataNoisy = generateData(true);
+
+            plotsDiv.innerHTML += '<section id="r1"><h2>R1) Daten</h2><div class="container">' +
+                '<div class="plot-container"><div id="dataClean"></div></div>' +
+                '<div class="plot-container"><div id="dataNoisy"></div></div></div></section>';
+            plotData("dataClean", "Ohne Rauschen", dataClean.train, dataClean.test, "Train", "Test");
+            plotData("dataNoisy", "Mit Rauschen", dataNoisy.train, dataNoisy.test, "Train", "Test");
+
+            const modelClean = createModel();
+            await trainModel(modelClean, dataClean, 100);
+            const lossTrain1 = await evaluateModel(modelClean, dataClean.train);
+            const lossTest1 = await evaluateModel(modelClean, dataClean.test);
+            const predTrain1 = (await predictY(modelClean, dataClean.train)).map(p => p[0]);
+            const predTest1 = (await predictY(modelClean, dataClean.test)).map(p => p[0]);
+
+            plotsDiv.innerHTML += '<section id="r2"><h2>R2) Modell ohne Rauschen</h2><div class="container">' +
+                '<div class="plot-container"><div id="modelCleanTrain"></div><div class="loss">Train Loss: ' + lossTrain1.toFixed(4) + '</div></div>' +
+                '<div class="plot-container"><div id="modelCleanTest"></div><div class="loss">Test Loss: ' + lossTest1.toFixed(4) + '</div></div></div></section>';
+            plotPrediction("modelCleanTrain", "Trainingsdaten", dataClean.train, predTrain1, "Vorhersage");
+            plotPrediction("modelCleanTest", "Testdaten", dataClean.test, predTest1, "Vorhersage");
+
+            const modelBest = createModel();
+            await trainModel(modelBest, dataNoisy, EPOCHS_BEST);
+            const lossTrain2 = await evaluateModel(modelBest, dataNoisy.train);
+            const lossTest2 = await evaluateModel(modelBest, dataNoisy.test);
+            const predTrain2 = (await predictY(modelBest, dataNoisy.train)).map(p => p[0]);
+            const predTest2 = (await predictY(modelBest, dataNoisy.test)).map(p => p[0]);
+
+            plotsDiv.innerHTML += '<section id="r3"><h2>R3) Modell Best-Fit</h2><div class="container">' +
+                '<div class="plot-container"><div id="modelBestTrain"></div><div class="loss">Train Loss: ' + lossTrain2.toFixed(4) + '</div></div>' +
+                '<div class="plot-container"><div id="modelBestTest"></div><div class="loss">Test Loss: ' + lossTest2.toFixed(4) + '</div></div></div></section>';
+            plotPrediction("modelBestTrain", "Trainingsdaten", dataNoisy.train, predTrain2, "Vorhersage");
+            plotPrediction("modelBestTest", "Testdaten", dataNoisy.test, predTest2, "Vorhersage");
+
+            const modelOver = createModel();
+            await trainModel(modelOver, dataNoisy, EPOCHS_OVER);
+            const lossTrain3 = await evaluateModel(modelOver, dataNoisy.train);
+            const lossTest3 = await evaluateModel(modelOver, dataNoisy.test);
+            const predTrain3 = (await predictY(modelOver, dataNoisy.train)).map(p => p[0]);
+            const predTest3 = (await predictY(modelOver, dataNoisy.test)).map(p => p[0]);
+
+            plotsDiv.innerHTML += '<section id="r4"><h2>R4) Modell Overfit</h2><div class="container">' +
+                '<div class="plot-container"><div id="modelOverTrain"></div><div class="loss">Train Loss: ' + lossTrain3.toFixed(4) + '</div></div>' +
+                '<div class="plot-container"><div id="modelOverTest"></div><div class="loss">Test Loss: ' + lossTest3.toFixed(4) + '</div></div></div></section>';            plotPrediction("modelOverTrain", "Trainingsdaten", dataNoisy.train, predTrain3, "Vorhersage");
+            plotPrediction("modelOverTest", "Testdaten", dataNoisy.test, predTest3, "Vorhersage");
+        }
+
+        main();
+    </script>
+</body>
+
+</html>

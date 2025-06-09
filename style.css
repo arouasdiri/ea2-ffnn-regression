@@ -1,0 +1,128 @@
+:root {
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --background: #f9fafb;
+    --foreground: #ffffff;
+    --text: #111827;
+    --text-light: #6b7280;
+    --border: #e5e7eb;
+    --shadow: rgba(0, 0, 0, 0.05);
+    --radius: 10px;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--background);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+nav {
+    background: var(--foreground);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 4px var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0.75rem 1rem;
+    list-style: none;
+}
+
+nav a {
+    padding: 0.5rem 1rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    background-color: transparent;
+    border-radius: var(--radius);
+    transition: all 0.2s ease-in-out;
+    border: 1px solid transparent;
+}
+
+nav a:hover,
+nav a:focus {
+    background-color: var(--accent);
+    color: #fff;
+    border-color: var(--accent-hover);
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
+}
+
+header {
+    text-align: center;
+    background-color: var(--accent);
+    color: #fff;
+    padding: 3rem 1rem 2rem;
+    box-shadow: 0 4px 10px var(--shadow);
+}
+
+header h1 {
+    font-size: 1.75rem;
+    margin: 0;
+}
+
+main {
+    padding: 2rem 1rem;
+    max-width: 1200px;
+    margin: auto;
+}
+
+h2 {
+    border-left: 6px solid var(--accent);
+    padding-left: 1rem;
+    margin-top: 3rem;
+    font-size: 1.5rem;
+}
+
+.section {
+    margin-bottom: 3rem;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 1rem;
+}
+
+.plot-container {
+    flex: 1 1 320px;
+    background: var(--foreground);
+    padding: 1rem;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 12px var(--shadow);
+}
+
+.loss {
+    font-weight: bold;
+    margin-top: 0.75rem;
+    color: var(--text-light);
+}
+
+@media (max-width: 600px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .container {
+        flex-direction: column;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+}
