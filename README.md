@@ -1,85 +1,75 @@
-# 📈 EA2 – Nichtlineare Regression mit einem Feedforward Neural Network (FFNN) in TensorFlow.js
+# 📊 EA2 – Regression mit Feedforward Neural Network (FFNN) in TensorFlow.js
 
-Diese Webanwendung zeigt, wie ein **Feedforward Neural Network (FFNN)** in **TensorFlow.js** zur Approximation einer komplexen, nichtlinearen Funktion eingesetzt wird. Das Projekt wurde im Rahmen der EA2 des Moduls **Deep Learning (BHT MIM 20 S25)** entwickelt.
-
-👩‍💻 **Autorin:** Ing. Aroua Sdiri  
-📅 **Stand:** Juni 2025
+Diese Webanwendung demonstriert das Erlernen einer nichtlinearen Funktion mithilfe eines **Feedforward Neural Network (FFNN)** mit **TensorFlow.js**. Ziel ist die Durchführung und Visualisierung einer Regressionsanalyse unter verschiedenen Bedingungen: ohne Rauschen, mit Rauschen sowie unter Berücksichtigung von Overfitting.
 
 ---
 
-## 🎯 Ziel der Anwendung
+## 🎯 Aufgabenstellung
 
-Die Anwendung soll demonstrieren, wie neuronale Netze in der Lage sind, eine analytisch gegebene Funktion zu approximieren – sowohl unter idealen Bedingungen als auch unter dem Einfluss von Rauschen bzw. Overfitting.
-
-Die zu approximierende Funktion lautet:
-
-\\[
-y(x) = 0.5(x+0.8)(x+1.8)(x-0.2)(x-0.3)(x-1.9) + 1
-\\]
-
----
-
-## 🧪 Experimentelle Szenarien
-
-Drei verschiedene Trainingsbedingungen wurden implementiert:
-
-1. **Modell ohne Rauschen**  
-   – Training auf perfekten Daten (kein Noise)
-
-2. **Best-Fit Modell**  
-   – Training auf verrauschten Daten mit moderater Epochenzahl
-
-3. **Overfitting-Modell**  
-   – Training auf verrauschten Daten mit überhöhter Epochenzahl
+- **Ziel:** Approximation einer unbekannten Funktion  
+  \\( y(x) = 0.5(x+0.8)(x+1.8)(x-0.2)(x-0.3)(x-1.9) + 1 \\)
+- **Framework:** TensorFlow.js (rein clientseitig)
+- **Visualisierung:** Plotly.js (interaktiv)
+- **Noise:** Additives Rauschen (Normalverteilung, Varianz 0.05)
+- **Modelle:** 3 verschiedene Trainingsszenarien:
+  1. Modell ohne Rauschen
+  2. Best-Fit Modell (mit Rauschen)
+  3. Overfitting-Modell (mit Rauschen und zu vielen Epochen)
 
 ---
 
-## 🧠 Lerninhalte & Ziele
+## 🧠 Lernziele
 
-- Anwendung eines FFNN zur Regressionsaufgabe
-- Einfluss von Rauschen auf Trainingsverlauf verstehen
-- Wirkung von Overfitting analysieren
-- Visualisierung von Trainings-/Testfehlern mit MSE
-
----
-
-## ⚙️ Eingesetzte Technologien
-
-| Technologie       | Zweck                                                |
-|------------------|------------------------------------------------------|
-| **TensorFlow.js** | Erstellung, Training und Evaluation des FFNN        |
-| **Plotly.js**     | Interaktive Visualisierung von Daten und Modellen   |
-| **seedrandom.js** | Reproduzierbare Datensätze durch festen Seed        |
+- Verstehen, wie neuronale Netze Funktionen approximieren  
+- Training eines FFNN-Modells mit echten und verrauschten Daten  
+- Analyse von Generalisierung und Overfitting  
+- Bewertung von Trainings- und Test-Loss anhand von MSE
 
 ---
 
-## 🗂️ Aufbau der Anwendung
+## ⚙️ Verwendete Technologien
 
-- **Daten:** Erzeugung von Trainings- & Testdaten (mit/ohne Rauschen)
-- **Modellarchitektur:** FFNN mit mehreren Dense-Schichten
-- **Visualisierung:** Interaktive Plots für Vorhersagen und MSE-Werte
-- **Layout:** Responsive Darstellung für Desktop & Mobile
-
----
-
-## ▶️ Anwendung starten
-
-1. Öffne `index.html` im Browser (z. B. Chrome).
-2. Es erfolgt ein automatisches Training und Plot-Rendering.
-3. Ergebnisse sind sofort interaktiv sichtbar (Zoom, Hover etc.).
+| Bibliothek        | Verwendung                                          |
+|-------------------|-----------------------------------------------------|
+| **TensorFlow.js** | Aufbau, Training und Auswertung des neuronalen Netzes |
+| **Plotly.js**     | Interaktive Diagramme und Vorhersagevisualisierung |
+| **seedrandom.js** | Reproduzierbare Zufallszahlen für Datengenerierung |
 
 ---
 
-## 📌 Weitere Hinweise
+## 🧪 Struktur der Anwendung
 
-- Die App funktioniert **komplett clientseitig** – kein Server notwendig.
-- **Modelle werden nicht gespeichert** – jede Ausführung trainiert neu.
-- Alle Diagramme sind vollständig interaktiv und leicht vergleichbar.
+- **R1 – Datensätze:** Trainings-/Testdaten mit & ohne Rauschen
+- **R2 – Modell ohne Rauschen:** Modelltraining auf idealen Daten
+- **R3 – Best-Fit Modell:** Training mit Rauschen, gute Generalisierung
+- **R4 – Overfitting Modell:** Training mit Rauschen, zu viele Epochen
+
+Alle Abschnitte zeigen jeweils zwei Diagramme (Train/Test) + Loss-Werte.
 
 ---
 
-## 🧾 Kontext
+## 🖥️ Nutzung
 
-Diese Arbeit entstand im Rahmen der **EA2** im Modul  
-**Deep Learning (BHT MIM 20 S25)** an der Berliner Hochschule für Technik.
+1. Öffne `index.html` im Browser (empfohlen: Chrome).
+2. Alles wird automatisch geladen und trainiert – kein Benutzereingriff notwendig.
+3. Die Diagramme erscheinen interaktiv (Zoom, Hover, Legende etc.).
 
+---
+
+## 📌 Hinweise
+
+- Die Anwendung läuft **vollständig im Browser**, kein Backend erforderlich.
+- **Keine Model-Speicherung** – alle Modelle werden live im Frontend trainiert.
+- **Responsives Layout** für Desktop und Mobile optimiert.
+
+---
+
+## 👩‍💻 Autorin
+
+Projekt erstellt von **Ing. Aroua Sdiri**  
+im Rahmen der Lehrveranstaltung:
+
+**Deep Learning (BHT MIM 20 S25)**  
+**EA2: Regression mit FFNN**
+
+Berlin, Juni 2025
